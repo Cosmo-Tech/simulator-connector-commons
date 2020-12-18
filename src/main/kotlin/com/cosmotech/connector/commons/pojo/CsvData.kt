@@ -8,16 +8,28 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
  */
 data class CsvData(val fileName:String,val headers:MutableList<String>, val rows:MutableList<MutableList<String>>) {
 
+    /** Export Directory path  */
+    var exportDirectory = "/mnt/simulation-data/"
+
+    constructor(
+        fileName : String,
+        headers : MutableList<String>,
+        rows : MutableList<MutableList<String>>,
+        exportDirectory : String
+    ) : this (fileName,headers,rows) {
+        this.exportDirectory = if ( !exportDirectory.endsWith("/") ) {
+            exportDirectory.plus("/")
+        } else  {
+            exportDirectory
+        }
+    }
+
     /**
      * Export Data to corresponding CSV file
      * Overwrite existing file if exists
      */
-    fun exportData(exportPath:String = "/mnt/simulation-data/") {
-        val targetFileName: String = if ( exportPath.endsWith("/") ) {
-            "$exportPath${fileName}.csv"
-        } else {
-            "$exportPath/${fileName}.csv"
-        }
+    fun exportData() {
+        val targetFileName = "$exportDirectory${fileName}.csv"
         csvWriter().open(targetFileName,false) {
             writeRow(headers)
             writeAll(rows)

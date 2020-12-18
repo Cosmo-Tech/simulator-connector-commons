@@ -23,7 +23,7 @@ class CsvDataTest: CsmUnitTest()  {
         val dataTestToPrint = createSampleDataForTest()
         val exportCsvFile = testTempFolder.resolve(dataTestToPrint.fileName.plus(".csv"))
         assertFalse (Files.exists(exportCsvFile),"Check if $exportCsvFile doesn't already exist")
-        dataTestToPrint.exportData(testTempFolder.toString())
+        dataTestToPrint.exportData()
         assertTrue (Files.exists(exportCsvFile), "Check that $exportCsvFile has been correctly created")
         val expectedFileExported = getResourceFile("pojo/Test1.csv")
         assertTrue(
@@ -42,7 +42,7 @@ class CsvDataTest: CsmUnitTest()  {
         Files.createFile(exportCsvFile)
         assertTrue(Files.exists(exportCsvFile),"Check if $exportCsvFile exists")
         assertEquals(Files.size(exportCsvFile),0,"Check if $exportCsvFile is empty")
-        dataTestToPrint.exportData(testTempFolder.toString())
+        dataTestToPrint.exportData()
         val expectedFileExported = getResourceFile("pojo/Test1.csv").toFile()
         assertTrue(
             FileUtils.contentEqualsIgnoreEOL(
@@ -61,7 +61,8 @@ class CsvDataTest: CsmUnitTest()  {
                 mutableListOf("data11", "data12", "data13"),
                 mutableListOf("data21", "data22", "data23"),
                 mutableListOf("data31", "data32", "data33")
-            )
+            ),
+            testTempFolder.toString()
         )
     }
 
