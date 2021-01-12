@@ -9,7 +9,7 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 data class CsvData(val fileName:String,val headers:MutableList<String>, val rows:MutableList<MutableList<String>>) {
 
     /** Export Directory path  */
-    var exportDirectory = "/mnt/simulation-data/"
+    private var exportDirectory = "/mnt/simulation-data/"
 
     constructor(
         fileName : String,
@@ -17,10 +17,10 @@ data class CsvData(val fileName:String,val headers:MutableList<String>, val rows
         rows : MutableList<MutableList<String>>,
         exportDirectory : String
     ) : this (fileName,headers,rows) {
-        this.exportDirectory = if ( !exportDirectory.endsWith("/") ) {
-            exportDirectory.plus("/")
+        if ( !exportDirectory.endsWith("/") ) {
+            this.exportDirectory = exportDirectory.plus("/")
         } else  {
-            exportDirectory
+            this.exportDirectory = exportDirectory
         }
     }
 
@@ -29,7 +29,7 @@ data class CsvData(val fileName:String,val headers:MutableList<String>, val rows
      * Overwrite existing file if exists
      */
     fun exportData() {
-        val targetFileName = "$exportDirectory${fileName}.csv"
+        val targetFileName = "$exportDirectory$fileName.csv"
         csvWriter().open(targetFileName,false) {
             writeRow(headers)
             writeAll(rows)
