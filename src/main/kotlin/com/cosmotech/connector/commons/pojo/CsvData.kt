@@ -6,14 +6,14 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 /**
  * Pojo class to store CSV information
  */
-data class CsvData(val fileName:String,val headers:MutableList<String>, val rows:MutableList<MutableList<String>>) {
+data class CsvData(val fileName:String, val headerNameAndType:MutableMap<String,String>, val rows:MutableList<MutableList<String>>) {
 
     /** Export Directory path  */
     private var exportDirectory = "/mnt/simulation-data/"
 
     constructor(
         fileName : String,
-        headers : MutableList<String>,
+        headers : MutableMap<String,String>,
         rows : MutableList<MutableList<String>>,
         exportDirectory : String
     ) : this (fileName,headers,rows) {
@@ -31,7 +31,7 @@ data class CsvData(val fileName:String,val headers:MutableList<String>, val rows
     fun exportData() {
         val targetFileName = "$exportDirectory$fileName.csv"
         csvWriter().open(targetFileName,false) {
-            writeRow(headers)
+            writeRow(headerNameAndType.keys.toList())
             writeAll(rows)
         }
     }

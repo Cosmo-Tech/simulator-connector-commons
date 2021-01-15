@@ -17,7 +17,7 @@ interface Connector<CLIENT_TYPE,OUTPUT_TYPE> {
      * Construct data that will be transferred to simulator
      * @return a list of CsvData containing
      */
-    fun constructSimulatorData(client:CLIENT_TYPE): List<OUTPUT_TYPE>
+    fun constructSimulatorData(client:CLIENT_TYPE): OUTPUT_TYPE
 
     /**
      * Retrieve, process and export data

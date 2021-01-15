@@ -56,7 +56,7 @@ class CsvDataTest: CsmUnitTest()  {
     private fun createSampleDataForTest(): CsvData {
         return CsvData(
             "Test1",
-            mutableListOf("column1", "column2", "column3"),
+            mutableMapOf("column1" to "string","column2" to "datetime", "column3" to "int"),
             mutableListOf(
                 mutableListOf("data11", "data12", "data13"),
                 mutableListOf("data21", "data22", "data23"),
