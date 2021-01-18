@@ -9,7 +9,7 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 data class CsvData(val fileName:String, val headerNameAndType:MutableMap<String,String>, val rows:MutableList<MutableList<String>>) {
 
     /** Export Directory path  */
-    private var exportDirectory = "/mnt/simulation-data/"
+    var exportDirectory = "/mnt/simulation-data/"
 
     constructor(
         fileName : String,
