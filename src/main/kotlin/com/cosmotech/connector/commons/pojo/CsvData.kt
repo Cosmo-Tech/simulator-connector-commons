@@ -1,6 +1,5 @@
 package com.cosmotech.connector.commons.pojo
 
-
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 
 /**
@@ -10,6 +9,9 @@ data class CsvData(val fileName:String, val headerNameAndType:MutableMap<String,
 
     /** Export Directory path  */
     var exportDirectory = "/mnt/simulation-data/"
+
+    /** File extension */
+    val extension = ".csv"
 
     constructor(
         fileName : String,
@@ -27,13 +29,25 @@ data class CsvData(val fileName:String, val headerNameAndType:MutableMap<String,
     /**
      * Export Data to corresponding CSV file
      * Overwrite existing file if exists
+     * @return the string path to the file created/overwritten
      */
-    fun exportData() {
-        val targetFileName = "$exportDirectory$fileName.csv"
+    fun writeFile(): String {
+        val targetFileName = getExportFilePath()
         csvWriter().open(targetFileName,false) {
             writeRow(headerNameAndType.keys.toList())
             writeAll(rows)
         }
+        return targetFileName
     }
+
+    /**
+     * Get the export file path
+     * Be careful, the exportDirectory can be overwritten
+     * The value returned can change
+     * @return the CSV file export path
+     */
+    fun getExportFilePath():String = "$exportDirectory$fileName$extension"
+
+
 
 }

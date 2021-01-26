@@ -4,7 +4,6 @@ import com.cosmotech.connector.commons.CsmUnitTest
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.Test
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -15,17 +14,35 @@ import kotlin.test.assertTrue
  */
 class CsvDataTest: CsmUnitTest()  {
 
-    // Working test directory
-    private val testTempFolder = Files.createTempDirectory("testTempFolder");
+    @Test
+    fun test_getExportFilePath() {
+        val dataTestToPrint = createSampleDataForTest()
+        assertEquals(testWorkingFolder
+            .resolve(
+                dataTestToPrint.fileName
+                    .plus(dataTestToPrint.extension)
+            ).toString(),
+            dataTestToPrint.getExportFilePath()
+        )
+    }
+
+    @Test
+    fun test_writeFile() {
+        val dataTestToPrint = createSampleDataForTest()
+        val targetFile = Paths.get(dataTestToPrint.getExportFilePath())
+        assertFalse(Files.exists(targetFile))
+        dataTestToPrint.writeFile()
+        assertTrue(Files.exists(targetFile))
+    }
 
     @Test
     fun test_exportData() {
         val dataTestToPrint = createSampleDataForTest()
-        val exportCsvFile = testTempFolder.resolve(dataTestToPrint.fileName.plus(".csv"))
+        val exportCsvFile = testWorkingFolder.resolve(dataTestToPrint.fileName.plus(".csv"))
         assertFalse (Files.exists(exportCsvFile),"Check if $exportCsvFile doesn't already exist")
-        dataTestToPrint.exportData()
+        dataTestToPrint.writeFile()
         assertTrue (Files.exists(exportCsvFile), "Check that $exportCsvFile has been correctly created")
-        val expectedFileExported = getResourceFile("pojo/Test1.csv")
+        val expectedFileExported = getResourceFile("pojo/Test.csv")
         assertTrue(
             FileUtils.contentEqualsIgnoreEOL(
                 exportCsvFile.toFile(),
@@ -38,12 +55,12 @@ class CsvDataTest: CsmUnitTest()  {
     @Test
     fun test_exportDataWithExistingTargetFile() {
         val dataTestToPrint = createSampleDataForTest()
-        val exportCsvFile = testTempFolder.resolve(dataTestToPrint.fileName.plus(".csv"))
+        val exportCsvFile = testWorkingFolder.resolve(dataTestToPrint.fileName.plus(".csv"))
         Files.createFile(exportCsvFile)
         assertTrue(Files.exists(exportCsvFile),"Check if $exportCsvFile exists")
         assertEquals(Files.size(exportCsvFile),0,"Check if $exportCsvFile is empty")
-        dataTestToPrint.exportData()
-        val expectedFileExported = getResourceFile("pojo/Test1.csv").toFile()
+        dataTestToPrint.writeFile()
+        val expectedFileExported = getResourceFile("pojo/Test.csv").toFile()
         assertTrue(
             FileUtils.contentEqualsIgnoreEOL(
                 exportCsvFile.toFile(),
@@ -51,23 +68,5 @@ class CsvDataTest: CsmUnitTest()  {
                 Charsets.UTF_8.name()
             ),"Check if $exportCsvFile has been overwritten"
         )
-    }
-
-    private fun createSampleDataForTest(): CsvData {
-        return CsvData(
-            "Test1",
-            mutableMapOf("column1" to "string","column2" to "datetime", "column3" to "int"),
-            mutableListOf(
-                mutableListOf("data11", "data12", "data13"),
-                mutableListOf("data21", "data22", "data23"),
-                mutableListOf("data31", "data32", "data33")
-            ),
-            testTempFolder.toString()
-        )
-    }
-
-    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-    private fun getResourceFile(filePath: String): Path {
-        return Paths.get(getTestResource(filePath)?.file)
     }
 }
