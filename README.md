@@ -12,7 +12,7 @@ mvn compile
 <dependency>
     <groupId>com.cosmotech</groupId>
     <artifactId>simulator-connector-commons</artifactId>
-    <version>0.2.0</version>
+    <version>VERSION</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@ In your pom.xml:
 ...
   <properties>
     ...
-    <simulator-connector-commons.version>0.2.0</simulator-connector-commons.version>
+    <simulator-connector-commons.version>VERSION</simulator-connector-commons.version>
 ...
   <repositories>
     <repository>
