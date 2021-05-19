@@ -8,7 +8,7 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 data class CsvData(val fileName:String, val headerNameAndType:MutableMap<String,String>, val rows:MutableList<MutableList<String>>) {
 
     /** Export Directory path  */
-    var exportDirectory = "/mnt/simulation-data/"
+    var exportDirectory = "/mnt/scenariorun-data/"
 
     /** File extension */
     val extension = ".csv"
