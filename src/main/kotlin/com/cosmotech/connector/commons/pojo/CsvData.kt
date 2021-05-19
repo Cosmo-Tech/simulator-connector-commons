@@ -35,7 +35,7 @@ data class CsvData(val fileName:String, val headerNameAndType:MutableMap<String,
         val targetFileName = getExportFilePath()
         csvWriter().open(targetFileName,false) {
             writeRow(headerNameAndType.keys.toList())
-            writeAll(rows)
+            writeRows(rows)
         }
         return targetFileName
     }
