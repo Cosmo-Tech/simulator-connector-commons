@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
-        <kotlin-csv-jvm.version>1.2.0</kotlin-csv-jvm.version>
+        <kotlin-csv-jvm.version>1.8.0</kotlin-csv-jvm.version>
         <commons-io.version>2.11.0</commons-io.version>
     </properties>
 
